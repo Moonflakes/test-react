@@ -40,7 +40,9 @@
     "serialize-javascript": "1.4.0",
     "style-loader": "0.19.1",
     "webpack": "3.10.0",
-    "webpack-dev-server": "^3.1.14",
     "webpack-error-notification": "0.1.7"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^2.9.7"
   }
 }
