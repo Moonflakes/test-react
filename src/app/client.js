@@ -25,19 +25,6 @@ app.rehydrate(dehydratedState, (err, context) => {
     </AppContainer>,
     container
   );
-
-  if (module.hot) {
-    const newApp = require('./app').default;
-    const NewApplication = newApp.getComponent();
-
-    ReactDOM.unmountComponentAtNode(container);
-    ReactDOM.render(
-      <AppContainer>
-        <NewApplication context={componentContext} />
-      </AppContainer>,
-      container
-    );
-  }
 });
 
 if (module.hot) {
