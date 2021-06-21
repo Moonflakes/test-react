@@ -13,10 +13,15 @@ const serverOptions = {
   noInfo: true,
   hot: true,
   publicPath: config.output.publicPath,
-  headers: { 'Access-Control-Allow-Origin': '*' },
+  host: WEBPACK_HOST,
+  port: WEBPACK_PORT,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+  }
 };
 
 const compiler = webpack(config);
 const webpackDevServer = new WebpackDevServer(compiler, serverOptions);
 
-webpackDevServer.listen(WEBPACK_PORT, WEBPACK_HOST, () => {});
+webpackDevServer.listen(WEBPACK_PORT, WEBPACK_HOST, () => { });

@@ -1,4 +1,5 @@
-delete process.env.BROWSER;
+require("@babel/polyfill");
 
-require("babel-register");
+delete process.env.BROWSER;
+require("@babel/register");
 require("./src/server");

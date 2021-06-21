@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { connectToStores } from "fluxible-addons-react";
-import { NavLink } from "fluxible-router";
 
 import Grid from "../components/Grid";
 
