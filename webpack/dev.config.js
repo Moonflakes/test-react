@@ -15,8 +15,6 @@ export default {
   entry: [
     '@babel/polyfill',
     'webpack-dev-server/client?http://' + host + ':' + port,
-    'webpack/hot/only-dev-server',
-    'react-hot-loader/patch',
     './src/app/client.js'
   ],
   output: {

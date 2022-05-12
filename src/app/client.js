@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from 'react-hot-loader';
+import { FluxibleProvider } from 'fluxible-addons-react';
+
 import app from "./app";
 
 // Add promise support for browser not supporting it
@@ -13,10 +15,17 @@ const render = () => {
   const Application = app.getComponent();
 
   ReactDOM.unmountComponentAtNode(container);
-  ReactDOM.hydrate(
+  module.hot ? ReactDOM.render(
     <AppContainer>
-      <Application context={componentContext} />
+      <FluxibleProvider context={componentContext}>
+        <Application />
+      </FluxibleProvider>
     </AppContainer>,
+    container
+  ) : ReactDOM.hydrate(
+    <FluxibleProvider context={componentContext}>
+      <Application />
+    </FluxibleProvider>,
     container
   );
 };
@@ -27,10 +36,6 @@ app.rehydrate(window.App, (err, context) => {
 
   componentContext = context.getComponentContext();
   render();
-
-  if (module.hot) {
-    render();
-  }
 });
 
 if (module.hot) {

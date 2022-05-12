@@ -1,12 +1,10 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import { provideContext } from "fluxible-addons-react";
+import { FluxibleComponentContext } from 'fluxible-addons-react';
 
 class HtmlDocument extends React.Component {
   static propTypes = {
-    context: PropTypes.object.isRequired,
     state: PropTypes.string.isRequired,
-    markup: PropTypes.string.isRequired,
     script: PropTypes.arrayOf(PropTypes.string),
     css: PropTypes.arrayOf(PropTypes.string)
   }
@@ -16,12 +14,8 @@ class HtmlDocument extends React.Component {
     css: []
   }
 
-  static contextTypes = {
-    getStore: PropTypes.func.isRequired
-  }
-
   render() {
-    const { state, markup, script, css } = this.props;
+    const { state, script, css } = this.props;
 
     return (
       <html lang="fr">
@@ -34,8 +28,11 @@ class HtmlDocument extends React.Component {
         </head>
 
         <body>
-          <div id="root" dangerouslySetInnerHTML={{__html: markup}} />
-          <script dangerouslySetInnerHTML={{__html: state}} />
+          <div id="root">
+            {this.props.children}
+          </div>
+
+          <script dangerouslySetInnerHTML={{ __html: state }} />
           {script.map((src, k) => <script key={k} src={src} />)}
         </body>
       </html>
@@ -43,6 +40,5 @@ class HtmlDocument extends React.Component {
   }
 }
 
-HtmlDocument = provideContext(HtmlDocument);
-
+HtmlDocument.contextType = FluxibleComponentContext;
 export default HtmlDocument;

@@ -16,11 +16,11 @@ class GridStore extends BaseStore {
   }
 
   handleApiOk() {
-    this.data = GridData;
+    this.data = JSON.parse(JSON.stringify(GridData));
     this.emitChange();
   }
 
-  getData() {return this.data;}
+  getData() { return this.data; }
 
   dehydrate() {
     return {

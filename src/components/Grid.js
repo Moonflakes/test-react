@@ -1,12 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from 'prop-types';
+import { FluxibleComponentContext } from 'fluxible-addons-react';
 import { connectToStores } from "fluxible-addons-react";
 
 if (process.env.BROWSER) {
   require("../style/Grid.scss");
 }
 
-class Grid extends Component {
+class Grid extends React.Component {
   padStr(input) {
     return (input < 10) ? "0" + input : "" + input;
   }
@@ -29,19 +30,19 @@ class Grid extends Component {
             <div key={chn.key} className="Chn">
               {chn.key}
             </div>
-           )}
+          )}
         </div>
       </div>
     );
   }
 }
 
-Grid = connectToStores(Grid, [
-  "GridStore",
-], (context) => {
+Grid.contextType = FluxibleComponentContext;
+
+Grid = connectToStores(Grid, ["GridStore"], (context) => {
   return {
     data: context.getStore("GridStore").getData(),
   };
-}, {getStore: PropTypes.func});
+}, { getStore: PropTypes.func });
 
 export default Grid;

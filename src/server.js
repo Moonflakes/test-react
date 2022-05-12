@@ -1,10 +1,8 @@
 import express from "express";
-import path from "path";
 import render from "./app/render";
 
 // Initialize express server
 const server = express();
-//server.use(serveFavicon(path.resolve("./dev/assets/static/icns_fav_32x32.png")));
 server.use('/static', express.static('./src/assets/static'));
 
 // On development, serve the static files from the webpack dev server.
@@ -20,6 +18,6 @@ server.use((err, req, res, next) => {  // eslint-disable-line no-unused-vars
 
 // Finally, start the express server
 server.set("port", process.env.PORT || 3000);
-let activeServer = server.listen(server.get("port"), () => {
+server.listen(server.get("port"), () => {
   console.log(`Express server listening on ${server.get("port")}`);
 });

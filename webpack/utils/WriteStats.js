@@ -8,7 +8,6 @@ import path from "path";
 
 const filepath = path.resolve(__dirname, "../../src/app/webpack-stats.json");
 
-
 export default class WriteStats {
   apply(compiler) {
     compiler.hooks.done.tap('WriteStats', (stats) => {
