@@ -10,8 +10,8 @@
     "url": "http://github.com/DailyDinities/test-react"
   },
   "engines": {
-    "node": "8.9.1",
-    "npm": "5.5.1"
+    "node": "16.14.0",
+    "npm": "8.3.1"
   },
   "dependencies": {
     "@babel/cli": "^7.13.16",
@@ -26,7 +26,7 @@
     "autoprefixer": "^10.4.2",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.4",
-    "d3": "^6.7.0",
+    "d3": "^7.4.4",
     "es6-promise": "^4.2.8",
     "express": "^4.17.2",
     "file-loader": "^6.2.0",
@@ -35,7 +35,7 @@
     "fluxible-router": "^2.0.2",
     "keymirror": "0.1.1",
     "postcss-loader": "^5.2.0",
-    "prop-types": "^15.7.2",
+    "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hot-loader": "^4.13.0",
