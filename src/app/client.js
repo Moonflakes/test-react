@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { AppContainer } from 'react-hot-loader';
 import { FluxibleProvider } from 'fluxible-addons-react';
 
 import app from "./app";
@@ -16,11 +15,9 @@ const render = () => {
 
   ReactDOM.unmountComponentAtNode(container);
   module.hot ? ReactDOM.render(
-    <AppContainer>
-      <FluxibleProvider context={componentContext}>
-        <Application />
-      </FluxibleProvider>
-    </AppContainer>,
+    <FluxibleProvider context={componentContext}>
+      <Application />
+    </FluxibleProvider>,
     container
   ) : ReactDOM.hydrate(
     <FluxibleProvider context={componentContext}>

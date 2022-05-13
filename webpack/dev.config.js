@@ -2,6 +2,8 @@
 import path from "path";
 import webpack from "webpack";
 import WebpackErrorNotificationPlugin from "webpack-error-notification";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
+
 import NotifyStats from "./utils/NotifyStats";
 import WriteStats from "./utils/WriteStats";
 
@@ -75,6 +77,7 @@ export default {
 
   plugins: [
     // hot reload
+    new ReactRefreshWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
