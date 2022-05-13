@@ -15,7 +15,6 @@ export default {
   devtool: 'eval-source-map',
   entry: [
     '@babel/polyfill',
-    'webpack-dev-server/client?http://' + host + ':' + port,
     './src/app/client.js'
   ],
   output: {
