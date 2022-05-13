@@ -4,7 +4,6 @@ import webpack from "webpack";
 import WebpackErrorNotificationPlugin from "webpack-error-notification";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
 
-import NotifyStats from "./utils/NotifyStats";
 import WriteStats from "./utils/WriteStats";
 
 const dist = path.resolve(__dirname, '../public/assets');
@@ -78,7 +77,6 @@ export default {
   plugins: [
     // hot reload
     new ReactRefreshWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
@@ -90,7 +88,6 @@ export default {
     new WebpackErrorNotificationPlugin(),
 
     // stats
-    new NotifyStats(),
     new WriteStats(),
 
     // print a webpack progress
