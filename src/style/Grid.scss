@@ -29,5 +29,18 @@
         border-right: solid $grey-5 1px;
       }
     }
+    .show {
+      border: solid $grey-5 1px;
+      h4 {
+        margin: unset;
+      }
+      h5 {
+        margin: unset;
+        font-weight: lighter;
+      }
+      h6 {
+        margin: unset;
+      }
+    }
   }
 }
