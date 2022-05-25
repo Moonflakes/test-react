@@ -68,16 +68,18 @@ class TimeShow extends React.Component {
                 cursor: "pointer",
               }}
             >
-              <div
-                className="pda"
-                style={{
-                  height: `${durationPx}px`,
-                  width: `${pdaToDisplay}%`,
-                }}
-              />
+              {pdaToDisplay && (
+                <div
+                  className="pda"
+                  style={{
+                    height: `${durationPx}px`,
+                    width: `${pdaToDisplay}%`,
+                  }}
+                />
+              )}
               {title && <h4>{title}</h4>}
               {subTitle && (
-                <h5 style={{ textAlign: showHours ? "start" : "end" }}>
+                <h5 style={{ textAlign: showHours ? "center" : "end" }}>
                   {subTitle}
                 </h5>
               )}

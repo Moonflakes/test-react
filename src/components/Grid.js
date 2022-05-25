@@ -34,10 +34,8 @@ class Grid extends React.Component {
     const withoutTimeShow = hasWithoutTime
       ? {
           title: "Sans programme",
-          subTitle: null,
           startTime: previousShow.endTime,
           endTime: show.startTime,
-          // pda: null,
         }
       : null;
     return withoutTimeShow;
@@ -53,15 +51,15 @@ class Grid extends React.Component {
         </div>
         <div className="Chns">
           <div style={{ marginTop: "18px" }}>
-            {hours.shows.map((show, index) => {
+            {hours.map((hour, index) => {
               return (
-                <TimeShow show={show} key={`hour-${index}`} showHours={false} />
+                <TimeShow show={hour} key={`hour-${index}`} showHours={false} />
               );
             })}
           </div>
           {data.chns.map((chn, ind) => {
             return (
-              <div key={chn.key}>
+              <div key={chn.key} style={{ textAlign: "center" }}>
                 <div className="Chn">{chn.key}</div>
                 {chn.shows.map((show, index) => {
                   const { startTime, endTime } = this.props.data;
