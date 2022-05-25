@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FluxibleComponentContext } from "fluxible-addons-react";
 import { connectToStores } from "fluxible-addons-react";
-import { TimeShow } from "./TimeShow";
+import TimeShow from "./TimeShow";
+// import Test from "./test";
 
 if (process.env.BROWSER) {
   require("../style/Grid.scss");
 }
-
 class Grid extends React.Component {
   padStr(input) {
     return input < 10 ? "0" + input : "" + input;
@@ -35,10 +35,8 @@ class Grid extends React.Component {
         <div className="Chns">
           {data.chns.map((chn, ind) => {
             return (
-              <div>
-                <div key={chn.key} className="Chn">
-                  {chn.key}
-                </div>
+              <div key={chn.key}>
+                <div className="Chn">{chn.key}</div>
                 {chn.shows.map((show, index) => {
                   const startDay = this.props.data.startTime;
                   const endDay = this.props.data.endTime;
@@ -57,7 +55,11 @@ class Grid extends React.Component {
                       }
                     : null;
                   return (
-                    <TimeShow show={show} withoutTimeShow={withoutTimeShow} />
+                    <TimeShow
+                      key={`show-${index}`}
+                      show={show}
+                      withoutTimeShow={withoutTimeShow}
+                    />
                   );
                 }, chn.shows)}
               </div>

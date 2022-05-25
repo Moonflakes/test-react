@@ -1,68 +1,92 @@
-import React, { useState } from "react";
+import React from "react";
 
-/**
- *
- * @param {title?: string,
- * subtitle?: string,
- * startTime: number,
- * endTime: number,
- * pda?: number,
- * } show
- * @param {
- * startTime?: number,
- * endTime?: number,
- * } withoutTimeShow
- */
-export const TimeShow = ({ show, withoutTimeShow }) => {
-  const { title, subTitle, startTime, endTime, pda } = show;
-  const pdaToDisplay = pda.toFixed(1);
-  const { startTimeToDisplay, endTimeToDisplay, durationToDisplay, duration } =
-    secondToTime(startTime, endTime);
-  const pxToAdd = durationToDisplay - 75 >= 0 ? 0 : 75 - durationToDisplay;
-  const [durationPx, setDurationPx] = useState(durationToDisplay);
+class TimeShow extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <>
-      {durationPx > 0 && (
-        <>
-          <div
-            className={"show"}
-            onMouseEnter={() => {
-              setDurationPx(durationPx + pxToAdd);
-            }}
-            onMouseLeave={() => {
-              setDurationPx(durationToDisplay);
-            }}
-            style={{
-              height: `${durationPx}px`,
-              overflow: "hidden",
-              cursor: "pointer",
-            }}
-          >
-            {title && <h4>{title}</h4>}
-            {subTitle && <h5>{subTitle}</h5>}
-            <h6>
-              {startTimeToDisplay} - {endTimeToDisplay}
-            </h6>
-            {pdaToDisplay && <h5>pda: {pdaToDisplay}%</h5>}
-          </div>
-          {withoutTimeShow && (
+    this.state = {
+      durationPx: 0,
+      durationToDisplay: 0,
+      startTimeToDisplay: 0,
+      endTimeToDisplay: 0,
+      duration: 0,
+      pxToAdd: 0,
+      pdaToDisplay: 0,
+    };
+  }
+
+  componentDidMount() {
+    const { show } = this.props;
+    const { startTime, endTime, pda } = show;
+    const pdaToDisplay = pda.toFixed(1);
+    const {
+      startTimeToDisplay,
+      endTimeToDisplay,
+      durationToDisplay,
+      duration,
+    } = secondToTime(startTime, endTime);
+    const pxToAdd = durationToDisplay - 75 >= 0 ? 0 : 75 - durationToDisplay;
+    this.setState({
+      durationPx: durationToDisplay,
+      durationToDisplay,
+      startTimeToDisplay,
+      endTimeToDisplay,
+      duration,
+      pxToAdd,
+      pdaToDisplay,
+    });
+  }
+
+  render() {
+    const { show, withoutTimeShow } = this.props;
+    const { title, subTitle } = show;
+    return (
+      <>
+        {this.state.durationPx > 0 && (
+          <>
             <div
-              className="show"
-              style={{ height: `${durationPx}px`, overflow: "hidden" }}
-            />
-          )}
-        </>
-      )}
-    </>
-  );
-};
+              className={"show"}
+              onMouseEnter={() => {
+                this.setState({
+                  durationPx: this.state.durationPx + this.state.pxToAdd,
+                });
+              }}
+              onMouseLeave={() => {
+                this.setState({ durationPx: this.state.durationToDisplay });
+              }}
+              style={{
+                height: `${this.state.durationPx}px`,
+                overflow: "hidden",
+                cursor: "pointer",
+              }}
+            >
+              {title && <h4>{title}</h4>}
+              {subTitle && <h5>{subTitle}</h5>}
+              <h6>
+                {this.state.startTimeToDisplay} - {this.state.endTimeToDisplay}
+              </h6>
+              {this.state.pdaToDisplay && (
+                <h5>pda: {this.state.pdaToDisplay}%</h5>
+              )}
+            </div>
+            {withoutTimeShow && (
+              <div
+                className="show"
+                style={{
+                  height: `${this.state.durationPx}px`,
+                  overflow: "hidden",
+                }}
+              />
+            )}
+          </>
+        )}
+      </>
+    );
+  }
+}
 
-/**
- *
- * @param {number} startTime
- * @param {number} endTime
- */
+export default TimeShow;
+
 const secondToTime = (startTime, endTime) => {
   const startHour = secondToHours(startTime);
   const endHour = secondToHours(endTime);
@@ -85,46 +109,24 @@ const secondToTime = (startTime, endTime) => {
   return { startTimeToDisplay, endTimeToDisplay, durationToDisplay, duration };
 };
 
-/**
- *
- * @param {number} time
- */
 const secondToHours = (time) => {
   return time / 60 / 60;
 };
 
-/**
- *
- * @param {number} hours
- */
 const extractHoursWithoutMinutes = (hours) => {
   return parseInt(hours);
 };
 
-/**
- *
- * @param {number} hours
- * @param {number} hoursWithoutMinutes
- */
 const extractMinutes = (hours, hoursWithoutMinutes) => {
   return (hours - hoursWithoutMinutes) * 60;
 };
 
-/**
- *
- * @param {number} minutes
- */
 const minutesStr = (minutes) => {
   return minutes.toFixed(0) < 10
     ? `0${minutes.toFixed(0)}`
     : minutes.toFixed(0);
 };
 
-/**
- *
- * @param {number} hoursWithoutMinutes
- * @param {number} minutes
- */
 const timeStr = (hoursWithoutMinutes, minutes) => {
   return `${hoursWithoutMinutes}h${minutes}`;
 };
