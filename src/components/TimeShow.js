@@ -38,7 +38,7 @@ class TimeShow extends React.Component {
   }
 
   render() {
-    const { show, withoutTimeShow } = this.props;
+    const { show } = this.props;
     const { title, subTitle } = show;
     return (
       <>
@@ -69,15 +69,6 @@ class TimeShow extends React.Component {
                 <h5>pda: {this.state.pdaToDisplay}%</h5>
               )}
             </div>
-            {withoutTimeShow && (
-              <div
-                className="show"
-                style={{
-                  height: `${this.state.durationPx}px`,
-                  overflow: "hidden",
-                }}
-              />
-            )}
           </>
         )}
       </>

@@ -1,9 +1,8 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { FluxibleComponentContext } from "fluxible-addons-react";
 import { connectToStores } from "fluxible-addons-react";
 import TimeShow from "./TimeShow";
-// import Test from "./test";
 
 if (process.env.BROWSER) {
   require("../style/Grid.scss");
@@ -50,16 +49,18 @@ class Grid extends React.Component {
                     isBetweenFirstAndLastTime && withoutTimeDuration !== 0;
                   const withoutTimeShow = hasWithoutTime
                     ? {
+                        title: "Sans programme",
+                        subTitle: null,
                         startTime: chn.shows[index - 1].endTime,
                         endTime: show.startTime,
+                        pda: 0,
                       }
                     : null;
                   return (
-                    <TimeShow
-                      key={`show-${index}`}
-                      show={show}
-                      withoutTimeShow={withoutTimeShow}
-                    />
+                    <Fragment key={`show-${index}`}>
+                      {withoutTimeShow && <TimeShow show={withoutTimeShow} />}
+                      <TimeShow show={show} />
+                    </Fragment>
                   );
                 }, chn.shows)}
               </div>
