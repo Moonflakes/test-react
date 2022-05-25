@@ -24,17 +24,18 @@ class Grid extends React.Component {
   }
 
   completeWithoutShowTime(startDay, endDay, show, previousShow) {
+    const previousEndTime = previousShow ? previousShow.endTime : startDay;
     const isBetweenFirstAndLastTime =
       show.startTime > startDay && show.endTime < endDay;
     const withoutTimeDuration = isBetweenFirstAndLastTime
-      ? previousShow.endTime - show.startTime
+      ? previousEndTime - show.startTime
       : 0;
     const hasWithoutTime =
       isBetweenFirstAndLastTime && withoutTimeDuration !== 0;
     const withoutTimeShow = hasWithoutTime
       ? {
           title: "Sans programme",
-          startTime: previousShow.endTime,
+          startTime: previousEndTime,
           endTime: show.startTime,
         }
       : null;
@@ -57,7 +58,7 @@ class Grid extends React.Component {
               );
             })}
           </div>
-          {data.chns.map((chn, ind) => {
+          {data.chns.map((chn) => {
             return (
               <div key={chn.key} style={{ textAlign: "center" }}>
                 <div className="Chn">{chn.key}</div>
@@ -69,12 +70,21 @@ class Grid extends React.Component {
                     show,
                     chn.shows[index - 1]
                   );
+                  const withoutLastTimeShow = chn.shows.length - 1 === index &&
+                    show.endTime < endTime && {
+                      title: "Sans programme",
+                      startTime: show.endTime,
+                      endTime: endTime,
+                    };
                   return (
                     <Fragment key={`show-${index}`}>
                       {withoutTimeShow && (
                         <TimeShow show={withoutTimeShow} showHours />
                       )}
                       <TimeShow show={show} showHours />
+                      {withoutLastTimeShow && (
+                        <TimeShow show={withoutLastTimeShow} showHours />
+                      )}
                     </Fragment>
                   );
                 }, chn.shows)}
