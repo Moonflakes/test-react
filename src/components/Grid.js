@@ -23,6 +23,26 @@ class Grid extends React.Component {
     );
   }
 
+  completeWithoutShowTime(startDay, endDay, show, previousShow) {
+    const isBetweenFirstAndLastTime =
+      show.startTime > startDay && show.endTime < endDay;
+    const withoutTimeDuration = isBetweenFirstAndLastTime
+      ? previousShow.endTime - show.startTime
+      : 0;
+    const hasWithoutTime =
+      isBetweenFirstAndLastTime && withoutTimeDuration !== 0;
+    const withoutTimeShow = hasWithoutTime
+      ? {
+          title: "Sans programme",
+          subTitle: null,
+          startTime: previousShow.endTime,
+          endTime: show.startTime,
+          pda: 0,
+        }
+      : null;
+    return withoutTimeShow;
+  }
+
   render() {
     const { data } = this.props;
 
@@ -37,25 +57,13 @@ class Grid extends React.Component {
               <div key={chn.key}>
                 <div className="Chn">{chn.key}</div>
                 {chn.shows.map((show, index) => {
-                  const startDay = this.props.data.startTime;
-                  const endDay = this.props.data.endTime;
-                  const isBetweenFirstAndLastTime =
-                    show.startTime > startDay && show.endTime < endDay;
-                  const withoutTimeDuration = isBetweenFirstAndLastTime
-                    ? this.props.data.chns[ind].shows[index - 1].endTime -
-                      show.startTime
-                    : 0;
-                  const hasWithoutTime =
-                    isBetweenFirstAndLastTime && withoutTimeDuration !== 0;
-                  const withoutTimeShow = hasWithoutTime
-                    ? {
-                        title: "Sans programme",
-                        subTitle: null,
-                        startTime: chn.shows[index - 1].endTime,
-                        endTime: show.startTime,
-                        pda: 0,
-                      }
-                    : null;
+                  const { startTime, endTime } = this.props.data;
+                  const withoutTimeShow = this.completeWithoutShowTime(
+                    startTime,
+                    endTime,
+                    show,
+                    chn.shows[index - 1]
+                  );
                   return (
                     <Fragment key={`show-${index}`}>
                       {withoutTimeShow && <TimeShow show={withoutTimeShow} />}

@@ -95,7 +95,7 @@ const secondToTime = (startTime, endTime) => {
   const duration = endTime - startTime;
   const BORDER_SIZE = 2;
   const durationToDisplay = duration / 20 - BORDER_SIZE;
-  console.log(duration, durationToDisplay);
+  // console.log(duration, durationToDisplay);
 
   return { startTimeToDisplay, endTimeToDisplay, durationToDisplay, duration };
 };
