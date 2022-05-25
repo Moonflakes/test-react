@@ -37,14 +37,14 @@ class Grid extends React.Component {
           subTitle: null,
           startTime: previousShow.endTime,
           endTime: show.startTime,
-          pda: 0,
+          // pda: null,
         }
       : null;
     return withoutTimeShow;
   }
 
   render() {
-    const { data } = this.props;
+    const { data, hours } = this.props;
 
     return (
       <div className="Grid">
@@ -52,6 +52,13 @@ class Grid extends React.Component {
           {"Grille du " + this.dateToDdMmYyyy(data.day)}
         </div>
         <div className="Chns">
+          <div style={{ marginTop: "18px" }}>
+            {hours.shows.map((show, index) => {
+              return (
+                <TimeShow show={show} key={`hour-${index}`} showHours={false} />
+              );
+            })}
+          </div>
           {data.chns.map((chn, ind) => {
             return (
               <div key={chn.key}>
@@ -66,8 +73,10 @@ class Grid extends React.Component {
                   );
                   return (
                     <Fragment key={`show-${index}`}>
-                      {withoutTimeShow && <TimeShow show={withoutTimeShow} />}
-                      <TimeShow show={show} />
+                      {withoutTimeShow && (
+                        <TimeShow show={withoutTimeShow} showHours />
+                      )}
+                      <TimeShow show={show} showHours />
                     </Fragment>
                   );
                 }, chn.shows)}
@@ -88,6 +97,7 @@ Grid = connectToStores(
   (context) => {
     return {
       data: context.getStore("GridStore").getData(),
+      hours: context.getStore("GridStore").getHours(),
     };
   },
   { getStore: PropTypes.func }

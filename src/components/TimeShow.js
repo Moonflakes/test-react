@@ -18,7 +18,7 @@ class TimeShow extends React.Component {
   componentDidMount() {
     const { show } = this.props;
     const { startTime, endTime, pda } = show;
-    const pdaToDisplay = pda.toFixed(1);
+    const pdaToDisplay = pda && pda.toFixed(1);
     const {
       startTimeToDisplay,
       endTimeToDisplay,
@@ -38,36 +38,48 @@ class TimeShow extends React.Component {
   }
 
   render() {
-    const { show } = this.props;
+    const { show, showHours } = this.props;
     const { title, subTitle } = show;
+    const {
+      durationPx,
+      pxToAdd,
+      durationToDisplay,
+      startTimeToDisplay,
+      endTimeToDisplay,
+      pdaToDisplay,
+    } = this.state;
     return (
       <>
-        {this.state.durationPx > 0 && (
+        {durationPx > 0 && (
           <>
             <div
               className={"show"}
               onMouseEnter={() => {
                 this.setState({
-                  durationPx: this.state.durationPx + this.state.pxToAdd,
+                  durationPx: durationPx + pxToAdd,
                 });
               }}
               onMouseLeave={() => {
-                this.setState({ durationPx: this.state.durationToDisplay });
+                this.setState({ durationPx: durationToDisplay });
               }}
               style={{
-                height: `${this.state.durationPx}px`,
+                height: `${durationPx}px`,
                 overflow: "hidden",
                 cursor: "pointer",
               }}
             >
               {title && <h4>{title}</h4>}
-              {subTitle && <h5>{subTitle}</h5>}
-              <h6>
-                {this.state.startTimeToDisplay} - {this.state.endTimeToDisplay}
-              </h6>
-              {this.state.pdaToDisplay && (
-                <h5>pda: {this.state.pdaToDisplay}%</h5>
+              {subTitle && (
+                <h5 style={{ textAlign: showHours ? "start" : "end" }}>
+                  {subTitle}
+                </h5>
               )}
+              {showHours && (
+                <h6>
+                  {startTimeToDisplay} - {endTimeToDisplay}
+                </h6>
+              )}
+              {pdaToDisplay && <h5>pda: {pdaToDisplay}%</h5>}
             </div>
           </>
         )}
