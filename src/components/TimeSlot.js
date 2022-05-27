@@ -1,6 +1,6 @@
 import React from "react";
 
-class TimeShow extends React.Component {
+class TimeSlot extends React.Component {
   constructor(props) {
     super(props);
 
@@ -98,7 +98,7 @@ class TimeShow extends React.Component {
   }
 }
 
-export default TimeShow;
+export default TimeSlot;
 
 const getTimesToDisplay = (startTime, endTime) => {
   const startHour = secondsToHours(startTime);

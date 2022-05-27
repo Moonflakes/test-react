@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { FluxibleComponentContext } from "fluxible-addons-react";
 import { connectToStores } from "fluxible-addons-react";
-import TimeShow, { secondsToHours } from "./TimeShow";
+import TimeSlot, { secondsToHours } from "./TimeSlot";
 
 if (process.env.BROWSER) {
   require("../style/Grid.scss");
@@ -32,14 +32,14 @@ class Grid extends React.Component {
       : 0;
     const hasWithoutTime =
       isBetweenFirstAndLastTime && withoutTimeDuration !== 0;
-    const withoutTimeShow = hasWithoutTime
+    const withoutTimeSlot = hasWithoutTime
       ? {
           title: "Sans programme",
           startTime: previousEndTime,
           endTime: show.startTime,
         }
       : null;
-    return withoutTimeShow;
+    return withoutTimeSlot;
   }
 
   render() {
@@ -55,7 +55,7 @@ class Grid extends React.Component {
           <div style={{ marginTop: "18px" }}>
             {hoursOfDay.map((hour, index) => {
               return (
-                <TimeShow show={hour} key={`hour-${index}`} showHours={false} />
+                <TimeSlot show={hour} key={`hour-${index}`} showHours={false} />
               );
             })}
           </div>
@@ -65,13 +65,13 @@ class Grid extends React.Component {
                 <div className="Chn">{chn.key}</div>
                 {chn.shows.map((show, index) => {
                   const { startTime, endTime } = data;
-                  const withoutTimeShow = this.completeWithoutShowTime(
+                  const withoutTimeSlot = this.completeWithoutShowTime(
                     startTime,
                     endTime,
                     show,
                     chn.shows[index - 1]
                   );
-                  const withoutLastTimeShow = chn.shows.length - 1 === index &&
+                  const withoutLastTimeSlot = chn.shows.length - 1 === index &&
                     show.endTime < endTime && {
                       title: "Sans programme",
                       startTime: show.endTime,
@@ -79,12 +79,12 @@ class Grid extends React.Component {
                     };
                   return (
                     <Fragment key={`show-${index}`}>
-                      {withoutTimeShow && (
-                        <TimeShow show={withoutTimeShow} showHours />
+                      {withoutTimeSlot && (
+                        <TimeSlot show={withoutTimeSlot} showHours />
                       )}
-                      <TimeShow show={show} showHours />
-                      {withoutLastTimeShow && (
-                        <TimeShow show={withoutLastTimeShow} showHours />
+                      <TimeSlot show={show} showHours />
+                      {withoutLastTimeSlot && (
+                        <TimeSlot show={withoutLastTimeSlot} showHours />
                       )}
                     </Fragment>
                   );
