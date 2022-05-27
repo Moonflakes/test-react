@@ -123,12 +123,11 @@ const secondToTime = (startTime, endTime) => {
   const duration = endTime - startTime;
   const BORDER_SIZE = 2;
   const durationToDisplay = duration / 20 - BORDER_SIZE;
-  // console.log(duration, durationToDisplay);
 
   return { startTimeToDisplay, endTimeToDisplay, durationToDisplay, duration };
 };
 
-const secondToHours = (time) => {
+export const secondToHours = (time) => {
   const oneDaySeconds = 86400;
   return time - oneDaySeconds < 0
     ? time / 60 / 60
