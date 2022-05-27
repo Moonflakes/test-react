@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { FluxibleComponentContext } from "fluxible-addons-react";
 import { connectToStores } from "fluxible-addons-react";
-import TimeShow, { secondToHours } from "./TimeShow";
+import TimeShow, { secondsToHours } from "./TimeShow";
 
 if (process.env.BROWSER) {
   require("../style/Grid.scss");
@@ -43,7 +43,7 @@ class Grid extends React.Component {
   }
 
   render() {
-    const { data, hours } = this.props;
+    const { data } = this.props;
     const hoursOfDay = getHoursOfDay(data.startTime, data.endTime);
 
     return (
@@ -102,7 +102,7 @@ const getHoursOfDay = (startTime, endTime) => {
   const hoursOfDay = [];
   const thirtyMinutes = 1800;
   for (let i = startTime; i < endTime; i = i + thirtyMinutes) {
-    const hours = secondToHours(i);
+    const hours = secondsToHours(i);
     hoursOfDay.push({
       subTitle: Number.isInteger(hours) ? `${hours}h` : "",
       startTime: i,

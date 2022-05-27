@@ -9,7 +9,6 @@ class TimeShow extends React.Component {
       durationToDisplay: 0,
       startTimeToDisplay: 0,
       endTimeToDisplay: 0,
-      duration: 0,
       pxToAdd: 0,
       pdaToDisplay: 0,
     };
@@ -19,19 +18,14 @@ class TimeShow extends React.Component {
     const { show } = this.props;
     const { startTime, endTime, pda } = show;
     const pdaToDisplay = pda && pda.toFixed(1);
-    const {
-      startTimeToDisplay,
-      endTimeToDisplay,
-      durationToDisplay,
-      duration,
-    } = secondToTime(startTime, endTime);
+    const { startTimeToDisplay, endTimeToDisplay, durationToDisplay } =
+      getTimesToDisplay(startTime, endTime);
     const pxToAdd = durationToDisplay - 75 >= 0 ? 0 : 75 - durationToDisplay;
     this.setState({
       durationPx: durationToDisplay,
       durationToDisplay,
       startTimeToDisplay,
       endTimeToDisplay,
-      duration,
       pxToAdd,
       pdaToDisplay,
     });
@@ -106,9 +100,9 @@ class TimeShow extends React.Component {
 
 export default TimeShow;
 
-const secondToTime = (startTime, endTime) => {
-  const startHour = secondToHours(startTime);
-  const endHour = secondToHours(endTime);
+const getTimesToDisplay = (startTime, endTime) => {
+  const startHour = secondsToHours(startTime);
+  const endHour = secondsToHours(endTime);
   const startHourWithoutMinutes = extractHoursWithoutMinutes(startHour);
   const endHourWithoutMinutes = extractHoursWithoutMinutes(endHour);
   const startMin = extractMinutes(startHour, startHourWithoutMinutes);
@@ -124,14 +118,15 @@ const secondToTime = (startTime, endTime) => {
   const BORDER_SIZE = 2;
   const durationToDisplay = duration / 20 - BORDER_SIZE;
 
-  return { startTimeToDisplay, endTimeToDisplay, durationToDisplay, duration };
+  return { startTimeToDisplay, endTimeToDisplay, durationToDisplay };
 };
 
-export const secondToHours = (time) => {
+export const secondsToHours = (time) => {
   const oneDaySeconds = 86400;
+  const oneHourSeconds = 3600;
   return time - oneDaySeconds < 0
-    ? time / 60 / 60
-    : (time - oneDaySeconds) / 60 / 60;
+    ? time / oneHourSeconds
+    : (time - oneDaySeconds) / oneHourSeconds;
 };
 
 const extractHoursWithoutMinutes = (hours) => {
@@ -142,7 +137,7 @@ const extractMinutes = (hours, hoursWithoutMinutes) => {
   return (hours - hoursWithoutMinutes) * 60;
 };
 
-const minutesStr = (minutes) => {
+const minutesStr = (minutes) => { //with 2 numbers
   return minutes.toFixed(0) < 10
     ? `0${minutes.toFixed(0)}`
     : minutes.toFixed(0);
