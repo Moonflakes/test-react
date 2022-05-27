@@ -129,7 +129,10 @@ const secondToTime = (startTime, endTime) => {
 };
 
 const secondToHours = (time) => {
-  return time / 60 / 60;
+  const oneDaySeconds = 86400;
+  return time - oneDaySeconds < 0
+    ? time / 60 / 60
+    : (time - oneDaySeconds) / 60 / 60;
 };
 
 const extractHoursWithoutMinutes = (hours) => {
