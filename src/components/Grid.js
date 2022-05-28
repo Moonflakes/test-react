@@ -89,6 +89,12 @@ class Grid extends React.Component {
             })}
           </div>
           {data.chns.map((chn) => {
+            const hasProgram = chn.shows.length > 0;
+            const withoutProgram = {
+              title: "Aucun programme",
+              startTime: data.startTime,
+              endTime: data.endTime,
+            };
             return (
               <div
                 key={chn.key}
@@ -99,6 +105,7 @@ class Grid extends React.Component {
                 }}
               >
                 <div className="Chn">{chn.key}</div>
+                {!hasProgram && <TimeSlot show={withoutProgram} showHours />}
                 {chn.shows.map((show, index) => {
                   const { startTime, endTime } = data;
                   const withoutTimeSlot = this.completeWithoutShowTime(
