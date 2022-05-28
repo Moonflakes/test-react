@@ -13,6 +13,7 @@ class Grid extends React.Component {
 
     this.state = {
       data: this.props.data,
+      selectedData: "data",
     };
   }
 
@@ -59,18 +60,23 @@ class Grid extends React.Component {
         <div className="Title">
           {"Grille du " + this.dateToDdMmYyyy(data.day)}
         </div>
-        <fieldset>
+        <fieldset style={{ marginBottom: "20px" }}>
           <legend>Select data:</legend>
           <div
             onChange={(event) => {
-              this.setState((prevState) => ({
-                data: this.props[event.target.value],
-              }));
+              this.setState({
+                data: { ...this.props[event.target.value] },
+                selectedData: event.target.value,
+              });
             }}
           >
-            <input type="radio" value="data" name="data" /> Filled data
-            <input type="radio" value="dataWithNoShowSlots" name="data" /> Data
-            with no show slots
+            <div>
+              <input type="radio" value="data" name="data" /> Filled data
+            </div>
+            <div>
+              <input type="radio" value="dataWithNoShowSlots" name="data" />{" "}
+              Data with no show slots
+            </div>
           </div>
         </fieldset>
 
@@ -108,7 +114,7 @@ class Grid extends React.Component {
                       endTime: endTime,
                     };
                   return (
-                    <Fragment key={`show-${index}`}>
+                    <Fragment key={`show-${index}-${this.state.selectedData}`}>
                       {withoutTimeSlot && (
                         <TimeSlot show={withoutTimeSlot} showHours />
                       )}
