@@ -61,7 +61,14 @@ class Grid extends React.Component {
           </div>
           {data.chns.map((chn) => {
             return (
-              <div key={chn.key} style={{ textAlign: "center" }}>
+              <div
+                key={chn.key}
+                style={{
+                  textAlign: "center",
+                  position: "relative",
+                  width: `${100 / data.chns.length}%`,
+                }}
+              >
                 <div className="Chn">{chn.key}</div>
                 {chn.shows.map((show, index) => {
                   const { startTime, endTime } = data;

@@ -32,6 +32,8 @@
     .show {
       border: solid $grey-5 1px;
       position: relative;
+      overflow: hidden;
+      cursor: pointer;
       h4 {
         margin: unset;
       }
@@ -39,6 +41,9 @@
         margin: unset;
         font-weight: lighter;
         font-size: small;
+        span {
+          background-color: rgb(21 14 216 / 20%);
+        }
       }
       h6 {
         margin: unset;

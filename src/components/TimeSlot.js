@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 class TimeSlot extends React.Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class TimeSlot extends React.Component {
       startTimeToDisplay: 0,
       endTimeToDisplay: 0,
       pxToAdd: 0,
+      blackBorder: "",
       pdaToDisplay: 0,
     };
   }
@@ -27,6 +28,7 @@ class TimeSlot extends React.Component {
       startTimeToDisplay,
       endTimeToDisplay,
       pxToAdd,
+      blackBorder: "",
       pdaToDisplay,
     });
   }
@@ -37,32 +39,52 @@ class TimeSlot extends React.Component {
     const {
       durationPx,
       pxToAdd,
+      blackBorder,
       durationToDisplay,
       startTimeToDisplay,
       endTimeToDisplay,
       pdaToDisplay,
     } = this.state;
+    const isAbsolute =
+      durationPx + pxToAdd > durationToDisplay &&
+      durationPx !== durationToDisplay;
+
     return (
       <>
         {durationPx > 0 && (
-          <>
+          <div // display absolute div for height too small on mouse hover
+            onMouseEnter={() => {
+              this.setState({
+                durationPx: durationPx + pxToAdd,
+                blackBorder: "solid black 1px",
+              });
+            }}
+            onMouseLeave={() => {
+              this.setState({
+                durationPx: durationToDisplay,
+                blackBorder: "",
+              });
+            }}
+            style={
+              isAbsolute
+                ? {
+                    position: "absolute",
+                    height: `${durationPx}px`,
+                    zIndex: 10,
+                    width: "100%",
+                    backgroundColor: "white",
+                  }
+                : {}
+            }
+          >
             <div
               className={"show"}
-              onMouseEnter={() => {
-                this.setState({
-                  durationPx: durationPx + pxToAdd,
-                });
-              }}
-              onMouseLeave={() => {
-                this.setState({ durationPx: durationToDisplay });
-              }}
               style={{
                 height: `${durationPx}px`,
-                overflow: "hidden",
-                cursor: "pointer",
+                border: blackBorder,
               }}
             >
-              {pdaToDisplay && (
+              {pdaToDisplay && ( // display visual pda
                 <div
                   className="pda"
                   style={{
@@ -84,14 +106,14 @@ class TimeSlot extends React.Component {
               )}
               {pdaToDisplay && (
                 <h5>
-                  pda:{" "}
-                  <span style={{ backgroundColor: "rgb(21 14 216 / 20%)" }}>
-                    {pdaToDisplay}%
-                  </span>
+                  pda: <span>{pdaToDisplay}%</span>
                 </h5>
               )}
             </div>
-          </>
+          </div>
+        )}
+        {isAbsolute && ( // display div to not change the column height when it become absolute
+          <div style={{ height: `${durationToDisplay + 2}px` }}></div>
         )}
       </>
     );
@@ -137,7 +159,8 @@ const extractMinutes = (hours, hoursWithoutMinutes) => {
   return (hours - hoursWithoutMinutes) * 60;
 };
 
-const minutesStr = (minutes) => { //with 2 numbers
+const minutesStr = (minutes) => {
+  //with 2 numbers
   return minutes.toFixed(0) < 10
     ? `0${minutes.toFixed(0)}`
     : minutes.toFixed(0);
