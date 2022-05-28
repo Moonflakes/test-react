@@ -8,6 +8,14 @@ if (process.env.BROWSER) {
   require("../style/Grid.scss");
 }
 class Grid extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: this.props.data,
+    };
+  }
+
   padStr(input) {
     return input < 10 ? "0" + input : "" + input;
   }
@@ -26,7 +34,7 @@ class Grid extends React.Component {
   completeWithoutShowTime(startDay, endDay, show, previousShow) {
     const previousEndTime = previousShow ? previousShow.endTime : startDay;
     const isBetweenFirstAndLastTime =
-      show.startTime > startDay && show.endTime < endDay;
+      show.startTime >= startDay && show.endTime <= endDay;
     const withoutTimeDuration = isBetweenFirstAndLastTime
       ? previousEndTime - show.startTime
       : 0;
@@ -43,7 +51,7 @@ class Grid extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data } = this.state;
     const hoursOfDay = getHoursOfDay(data.startTime, data.endTime);
 
     return (
@@ -51,6 +59,21 @@ class Grid extends React.Component {
         <div className="Title">
           {"Grille du " + this.dateToDdMmYyyy(data.day)}
         </div>
+        <fieldset>
+          <legend>Select data:</legend>
+          <div
+            onChange={(event) => {
+              this.setState((prevState) => ({
+                data: this.props[event.target.value],
+              }));
+            }}
+          >
+            <input type="radio" value="data" name="data" /> Filled data
+            <input type="radio" value="dataWithNoShowSlots" name="data" /> Data
+            with no show slots
+          </div>
+        </fieldset>
+
         <div className="Chns">
           <div style={{ marginTop: "18px" }}>
             {hoursOfDay.map((hour, index) => {
@@ -127,6 +150,9 @@ Grid = connectToStores(
   (context) => {
     return {
       data: context.getStore("GridStore").getData(),
+      dataWithNoShowSlots: context
+        .getStore("GridStore")
+        .getDataWithNoShowSlots(),
     };
   },
   { getStore: PropTypes.func }

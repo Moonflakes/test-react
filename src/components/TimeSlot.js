@@ -17,7 +17,8 @@ class TimeSlot extends React.Component {
 
   componentDidMount() {
     const { show } = this.props;
-    const { startTime, endTime, pda } = show;
+    const { startTime, endTime, pda, title } = show;
+    console.log(startTime, title)
     const pdaToDisplay = pda && pda.toFixed(1);
     const { startTimeToDisplay, endTimeToDisplay, durationToDisplay } =
       getTimesToDisplay(startTime, endTime);
