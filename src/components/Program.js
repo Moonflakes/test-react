@@ -7,23 +7,18 @@ class Program extends React.Component {
     super(props);
   }
 
-  completeWithoutShowTime(startDay, endDay, show, previousShow) {
+  completeWithoutPreviousTimeSlot(startDay, show, previousShow) {
     const previousEndTime = previousShow ? previousShow.endTime : startDay;
-    const isBetweenFirstAndLastTime =
-      show.startTime >= startDay && show.endTime <= endDay;
-    const withoutTimeDuration = isBetweenFirstAndLastTime
-      ? previousEndTime - show.startTime
-      : 0;
-    const hasWithoutTime =
-      isBetweenFirstAndLastTime && withoutTimeDuration !== 0;
-    const withoutTimeSlot = hasWithoutTime
+    const durationBetweenCloseShows = previousEndTime - show.startTime;
+    const hasWithoutTime = durationBetweenCloseShows !== 0;
+    const withoutPreviousTimeSlot = hasWithoutTime
       ? {
           title: "Sans programme",
           startTime: previousEndTime,
           endTime: show.startTime,
         }
       : null;
-    return withoutTimeSlot;
+    return withoutPreviousTimeSlot;
   }
 
   render() {
@@ -51,12 +46,12 @@ class Program extends React.Component {
               {!hasProgram && <TimeSlot show={withoutProgram} showHours />}
               {chn?.shows.map((show, index) => {
                 const { startTime, endTime } = data;
-                const withoutTimeSlot = this.completeWithoutShowTime(
-                  startTime,
-                  endTime,
-                  show,
-                  chn.shows[index - 1]
-                );
+                const withoutPreviousTimeSlot =
+                  this.completeWithoutPreviousTimeSlot(
+                    startTime,
+                    show,
+                    chn.shows[index - 1]
+                  );
                 const withoutLastTimeSlot = chn.shows.length - 1 === index &&
                   show.endTime < endTime && {
                     title: "Sans programme",
@@ -65,8 +60,8 @@ class Program extends React.Component {
                   };
                 return (
                   <Fragment key={`show-${index}-${this.props.selectedData}`}>
-                    {withoutTimeSlot && (
-                      <TimeSlot show={withoutTimeSlot} showHours />
+                    {withoutPreviousTimeSlot && (
+                      <TimeSlot show={withoutPreviousTimeSlot} showHours />
                     )}
                     <TimeSlot show={show} showHours />
                     {withoutLastTimeSlot && (
